@@ -5,7 +5,11 @@ import static minesweeper.Constants.COLUMNS;
 
 /** This class contains the locations of the mines. */
 public class Map {
+int numMines;
+boolean[][] isMined = new boolean[ROWS][COLUMNS];
 
-
+public Map() {
+    super();
+}
 
 }
