@@ -6,6 +6,9 @@ import javax.swing.*;
 import static minesweeper.Constants.ROWS;
 import static minesweeper.Constants.COLUMNS;
 
+/**
+ * This class contains a 2D array of cells and a Map.
+ */
 public class Board extends JPanel {
     private static final long serialVersionUID = 1L;
 
@@ -14,6 +17,7 @@ public class Board extends JPanel {
     public static final int BOARD_WIDTH = CELL_SIZE * COLUMNS;
     public static final int BOARD_HEIGHT = CELL_SIZE * ROWS;
 
+    // Define game properties
     /** Create game board made up of cells */
     Cell cells[][] = new Cell[ROWS][COLUMNS];
     /** Allocate number of mines */
@@ -24,6 +28,7 @@ public class Board extends JPanel {
         // Create JPanel
         super.setLayout(new GridLayout(ROWS, COLUMNS, 2, 2));
 
+        // Allocate the 2D array of Cell and add to content-pane.
         for (int row = 0; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                cells[row][column] = new Cell(row, column);
@@ -31,9 +36,11 @@ public class Board extends JPanel {
             }
         }
 
-        // 
+        // TODO Allocate a common listener as the MouseEvent listener for all the Cells (JButtons)
+        // ......
 
-        //
+        // TODO Every cell adds this common listener
+        // ......
 
         // Set size of content-pane and pack all components under container. 
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
@@ -44,8 +51,10 @@ public class Board extends JPanel {
         Map mineMap = new Map();
         mineMap.newMap(numMines);
 
+        // Reset all cells, mines, and flags.
         for (int row = 0; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
+                // Initialize each cell with/without a mine.
                 cells[row][column].newGame(mineMap.isMined[row][column]);
             }
         }
@@ -65,13 +74,15 @@ public class Board extends JPanel {
         return numMines;  
     }
 
-    //
+    // Reveal the cell at (srcRow, srcCol)
+    // If this cell does not have a mine, reveal the 8 neighbouring cells recursively
     private void revealCell(int srcRow, int srcCol) {
         int numMines = getSurroundingMines(srcRow, srcCol);
         cells[srcRow][srcCol].setText(numMines + "");
         cells[srcRow][srcCol].isRevealed = true;
         cells[srcRow][srcCol].paint();
         if (numMines == 0) {
+            // Recursively reveal neighbouring cells
             for (int row = srcRow - 1; row <= srcRow + 1; row++) {
                 for (int col = srcCol - 1; col <= srcCol + 1; col++) {
                     // Need to ensure valid row and column numbers too
@@ -83,7 +94,12 @@ public class Board extends JPanel {
         }
     }
 
-    // Return true if the player has won
+    // Return true if the player has won.
+    public boolean hasWon() {
+        // ......
+        return true;
+    }
 
-    // Define a Listener Inner class
+    // TODO Define a Listener Inner class
+    // ......
 }
