@@ -36,11 +36,15 @@ public class Board extends JPanel {
             }
         }
 
-        // TODO Allocate a common listener as the MouseEvent listener for all the Cells (JButtons)
-        // ......
+        // Allocate a common listener as the MouseEvent listener for Cells
+        CellMouseListener listener = new CellMouseListener();
 
-        // TODO Every cell adds this common listener
-        // ......
+        // Adds this common listener to every Cell
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                cells[row][column].addMouseListener(listener);
+            }
+        }
 
         // Set size of content-pane and pack all components under container. 
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
@@ -100,6 +104,35 @@ public class Board extends JPanel {
         return true;
     }
 
-    // TODO Define a Listener Inner class
+    // Listener Inner class
+    private class CellMouseListener extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {   // Retrieve source object
+            Cell sourceCell = (Cell)e.getSource();
+            // Debug
+            System.out.println("You clicked on " + sourceCell.row + ", " + sourceCell.col);
+
+            // Left and right-click functionality; left-click to reveal a cell, right-click to plant/remove a flag.
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                if (sourceCell.isMined) {
+                    System.out.println("Game Over");
+                    sourceCell.setText("*");
+                } else {
+                    revealCell (sourceCell.row, sourceCell.col);
+                }
+            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                if (sourceCell.isFlagged) {
+                    sourceCell.isFlagged = false;
+                    sourceCell.setText("");
+                } else {
+                    sourceCell.isFlagged = true;
+                    sourceCell.setText("F");
+                }
+            }
+        }
+    }
+
+    // TODO 7 Check if the player has won, after revealing this cell
     // ......
 }
+

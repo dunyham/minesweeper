@@ -25,9 +25,11 @@ public class Main extends JFrame {
         cp.setLayout(new BorderLayout());
         cp.add(board, BorderLayout.CENTER);
 
-        // TODO Add btnNewGame to the south to restart the game
-        // ......
+        // New game button to the south to restart the game
+        cp.add(newGameButton, BorderLayout.SOUTH);
 
+        // ActionListener to reset the board when the new game button is pressed
+        newGameButton.addActionListener(e -> board.newGame());
         board.newGame();
 
         pack(); // To pack the UI components
@@ -38,8 +40,13 @@ public class Main extends JFrame {
 
     // Main method to start the game
     public static void main (String[] args) {
-        // TODO Run the constructor
-        // ......
+        // Run the constructor on event-dispatching thread
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Main(); // calls the constructor and creates the window
+            }
+        });
     }
 }
 
