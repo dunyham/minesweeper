@@ -100,7 +100,13 @@ public class Board extends JPanel {
 
     // Return true if the player has won.
     public boolean hasWon() {
-        // ......
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                if (!cells[row][column].isRevealed && !cells[row][column].isMined) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -131,8 +137,5 @@ public class Board extends JPanel {
             }
         }
     }
-
-    // TODO 7 Check if the player has won, after revealing this cell
-    // ......
 }
 
