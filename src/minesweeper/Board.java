@@ -81,17 +81,19 @@ public class Board extends JPanel {
     // Reveal the cell at (srcRow, srcCol)
     // If this cell does not have a mine, reveal the 8 neighbouring cells recursively
     private void revealCell(int srcRow, int srcCol) {
-        int numMines = getSurroundingMines(srcRow, srcCol);
-        cells[srcRow][srcCol].setText(numMines + "");
+        if (srcRow < 0 || srcRow >= ROWS || srcCol < 0 || srcCol >= COLUMNS || cells[srcRow][srcCol].isRevealed) {
+            return;
+        }
         cells[srcRow][srcCol].isRevealed = true;
         cells[srcRow][srcCol].paint();
-        if (numMines == 0) {
-            // Recursively reveal neighbouring cells
+        int numMines = getSurroundingMines(srcRow, srcCol);
+        if (numMines > 0) {
+            cells[srcRow][srcCol].setText(numMines + "");
+        } else {
             for (int row = srcRow - 1; row <= srcRow + 1; row++) {
                 for (int col = srcCol - 1; col <= srcCol + 1; col++) {
-                    // Need to ensure valid row and column numbers too
-                    if (row >= 0 && row < ROWS && col >= 0 && col < COLUMNS) {
-                        if (!cells[row][col].isRevealed) revealCell(row, col);
+                    if (row != srcRow || col != srcCol) {
+                            revealCell(row, col);
                     }
                 }
             }
