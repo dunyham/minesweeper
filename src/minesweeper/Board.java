@@ -79,13 +79,19 @@ public class Board extends JPanel {
     }
 
     // Reveal the cell at (srcRow, srcCol)
-    // If this cell does not have a mine, reveal the 8 neighbouring cells recursively
+    // If this cell does not have a mine, reveal the 8 neighbouring cells recursively.
+
     private void revealCell(int srcRow, int srcCol) {
+        // If the cell is outside the board or already revealed, return to stop recursion
         if (srcRow < 0 || srcRow >= ROWS || srcCol < 0 || srcCol >= COLUMNS || cells[srcRow][srcCol].isRevealed) {
             return;
         }
+
+        // Reveal the cell
         cells[srcRow][srcCol].isRevealed = true;
         cells[srcRow][srcCol].paint();
+
+        // Show the number of mines adjacent to the cell or recursively reveal the surrounding cells.
         int numMines = getSurroundingMines(srcRow, srcCol);
         if (numMines > 0) {
             cells[srcRow][srcCol].setText(numMines + "");
